@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Crypto Chicken Run</title>
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="icon" href="favicon.ico">
+  <script src="https://kit.fontawesome.com/622afd0c30.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js" ></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"
+></script>
+<script src="https://unpkg.com/0xsequence@latest/dist/0xsequence.umd.min.js"></script>
+
+</head>
+<body>
+  <div id="moralisBtn">
+    <div style="float: right; border-radius: 50%; margin-right:60px; " ><button class="btn btn-danger" id="btn-login">Moralis Metamask Login</button>
+      <button class="btn btn-warning" style="display:none;" id="btn-logout">Logout</button></div>
+  </div> 
+  <div id="sequenceBtn">
+    <div style="float: right; border-radius: 50%; margin-right:60px; " ><button class="btn btn-danger" id="btn-login2">Sequence Metamask Login</button>
+      <button class="btn btn-warning" style="display:none;" id="btn-logout">Logout</button></div>
+  </div>
+<div id="counter">0</div>
+    
+<div id="controls">
+  <div>
+    <button id="forward">
+      <svg width="30" height="30" viewBox="0 0 10 10">
+        <g transform="rotate(0, 5,5)">
+          <path d="M5,4 L7,6 L3,6 L5,4" />
+        </g>
+      </svg>
+    </button>
+    <button id="left">
+      <svg width="30" height="30" viewBox="0 0 10 10">
+        <g transform="rotate(-90, 5,5)">
+          <path d="M5,4 L7,6 L3,6 L5,4" />
+        </g>
+      </svg>
+    </button>
+    <button id="backward">
+      <svg width="30" height="30" viewBox="0 0 10 10">
+        <g transform="rotate(180, 5,5)">
+          <path d="M5,4 L7,6 L3,6 L5,4" />
+        </g>
+      </svg>
+    </button>
+    <button id="right">
+      <svg width="30" height="30" viewBox="0 0 10 10">
+        <g transform="rotate(90, 5,5)">
+          <path d="M5,4 L7,6 L3,6 L5,4" />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div id="end">
+  <button id="retry">Retry</button>
+</div>
+
+<div class= "credits">
+  Made with 🐓
+</div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/99/three.min.js'></script>
+  <script src="js/scoreManager.js"></script>
+  <script src="moralis-connection.js"></script>
+  <script  src="js/script.js"></script>
+
+</body>
+</html>
