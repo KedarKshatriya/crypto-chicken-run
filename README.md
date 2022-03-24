@@ -20,4 +20,4 @@ It is made using the Alchemy, Polygon, Moralis, and IPFS, NFT-Port, covalent, Ta
 With crypto chicken run you can never be bored. With a flawless blockchain and NFT integration, I have created a game that can be played by anyone, and then you can earn NFTs to upgrade your character with perks.
 
 # Video
-https://stream.mux.com/KVnSkk02Cu601MOqbW3Cr96yJi4e3EYiJxpRn6UJYe02Pg/high.mp4
+

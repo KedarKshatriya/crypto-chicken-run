@@ -5,6 +5,7 @@ $(document).ready(function () {
 let connection = Moralis.onConnect(function (accounts) {
   setMoralisData();
 });
+const web3 = new Moralis.Web3();
 
 function setMoralisData() {
   let user = Moralis.User.current();
@@ -15,18 +16,7 @@ function setMoralisData() {
       `https://opensea.io/${user.get('ethAddress')}?tab=private`
     );
     console.log(`${user.get('ethAddress')}`);
-    const settings = {
-      async: true,
-      crossDomain: true,
-      url: `https://api.nftport.xyz/v0/accounts/${user.get(
-        'ethAddress'
-      )}?chain=polygon`,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'c00bc5e8-e27e-4e8b-8d4d-15e74a7a84d9',
-      },
-    };
+
     const cardDiv = `<div class="card bg-light nft-card col-3 m-2" nft-scores="{nft-score}" onclick="setTokenId(this.id)" id="{token_id}">
     <img class="card-img-top" src="{nft-image}" alt="2048 NFT Game">
     <div class="card-body">
@@ -41,52 +31,71 @@ function setMoralisData() {
         <span class="col-6">{token_id}</span>
     </div>
 </div>`;
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-      if (response && response.nfts) {
-        response.nfts.forEach(async (nft) => {
-          if (
-            nft.contract_address ===
-            '0xefde0fbed62f1bc78feaa01bf4397b145dfca20c'
-          ) {
-            console.log(nft.contract_address);
 
-            const settings = {
-              async: true,
-              crossDomain: true,
-              url: `https://api.covalenthq.com/v1/137/tokens/0xefde0fbed62f1bc78feaa01bf4397b145dfca20c/nft_metadata/${nft.token_id}/?quote-currency=USD&format=JSON&key=ckey_66c30cdb41ca4d87a451559d868`,
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'c00bc5e8-e27e-4e8b-8d4d-15e74a7a84d9',
-              },
-            };
-            $.ajax(settings).done(function (metadata) {
-              console.log(metadata);
-              let nftData = metadata.data.items[0].nft_data[0];
-              let nftCard = cardDiv
-                .replace(/{token_id}/g, nftData.token_id)
-                .replace(
-                  /{nft-score}/g,
-                  nftData.external_data.attributes[1].value
-                )
-                .replace(/{nft-title}/g, nftData.external_data.name)
-                .replace(
-                  /{nft-description}/g,
-                  nftData.external_data.description
-                )
-                .replace(/{nft-image}/, nftData.external_data.image);
-              $(nftCard).appendTo('#outer-div');
-            });
-          }
+const options = {
+  method: 'GET',
+  redirect: 'follow'
+};
+
+const baseURL = "https://polygon-mainnet.g.alchemy.com/v2/DFxYBtrdL4CFhx6bsc4XiF-pDpnAjRCe/getNFTs/";
+const ownerAddr = `${user.get('ethAddress')}`;
+const contractAddr = "0xefde0fbed62f1bc78feaa01bf4397b145dfca20c";
+const fetchURL = `${baseURL}?owner=${ownerAddr}&contractAddresses[]=${contractAddr}`;
+
+fetch(fetchURL, options)
+.then((response) => {
+  console.log(response);
+  return response.json();
+})
+.then(response => {
+  // response = JSON.stringify(response, null, 2)
+  //console.log("response of alchemy",response,response.ownedNfts);
+  if (response && response.ownedNfts) {
+    console.log("true");
+    response.ownedNfts.forEach(async (nft) => {
+      let tokenId = nft.id.tokenId.toString();
+      tokenId = bigInt(tokenId.slice(48),16)
+      console.log("Bigint num:",tokenId)
+
+        const settings = {
+
+
+          async: true,
+
+          crossDomain: true,
+          url: `https://api.covalenthq.com/v1/137/tokens/0xefde0fbed62f1bc78feaa01bf4397b145dfca20c/nft_metadata/${tokenId}/?quote-currency=USD&format=JSON&key=ckey_66c30cdb41ca4d87a451559d868`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'c00bc5e8-e27e-4e8b-8d4d-15e74a7a84d9',
+          },
+        };
+        $.ajax(settings).done(function (metadata) {
+          console.log(metadata);
+          let nftData = metadata.data.items[0].nft_data[0];
+          let nftCard = cardDiv
+            .replace(/{token_id}/g, nftData.token_id)
+            .replace(
+              /{nft-score}/g,
+              nftData.external_data.attributes[1].value
+            )
+            .replace(/{nft-title}/g, nftData.external_data.name)
+            .replace(
+              /{nft-description}/g,
+              nftData.external_data.description
+            )
+            .replace(/{nft-image}/, nftData.external_data.image);
+          $(nftCard).appendTo('#outer-div');
         });
-      }
-      if (response.transaction_external_url) {
-        $('#container-card').css('display', 'block');
-        $('#transaction-url').css('display', 'block');
-        $('#transaction-url').attr('href', response.transaction_external_url);
-      }
     });
+  }
+  if (response.transaction_external_url) {
+    $('#container-card').css('display', 'block');
+    $('#transaction-url').css('display', 'block');
+    $('#transaction-url').attr('href', response.transaction_external_url);
+  }
+})
+.catch(error => console.log('error', error))
   }
 }
 
@@ -522,7 +531,6 @@ const contractAbi = [
     type: 'function',
   },
 ];
-const web3 = new Moralis.Web3();
 
 const contract_address = '0xefde0fbed62f1bc78feaa01bf4397b145dfca20c';
 
