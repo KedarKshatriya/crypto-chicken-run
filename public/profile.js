@@ -55,7 +55,7 @@ fetch(fetchURL, options)
     response.ownedNfts.forEach(async (nft) => {
       let tokenId = nft.id.tokenId.toString();
       tokenId = bigInt(tokenId.slice(48),16)
-      console.log("Bigint num:",tokenId)
+      // console.log("Bigint num:",tokenId)
 
         const settings = {
 
@@ -71,7 +71,7 @@ fetch(fetchURL, options)
           },
         };
         $.ajax(settings).done(function (metadata) {
-          console.log(metadata);
+          // console.log(metadata);
           let nftData = metadata.data.items[0].nft_data[0];
           let nftCard = cardDiv
             .replace(/{token_id}/g, nftData.token_id)

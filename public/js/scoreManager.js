@@ -7,13 +7,16 @@ async function getScores(ethAddress) {
     processData: false,
   };
   $.ajax(settings).done(function (response) {
-    console.log(response);
+    // console.log("reponse of vrf",response);
     if (response?.data?.rows && response.data.rows.length == 0) {
       stepTime = 200;
       killCounter = 0;
     } else if (response?.data?.rows) {
-      stepTime = 130;
-      killCounter = 200;
+      console.log("response.randVRFNumber",response.randVRFNumber);
+      stepTime = 200 - (response.randVRFNumber * 10);
+      console.log("stepTime", stepTime);
+      killCounter = response.randVRFNumber * 100;
+      console.log("killCounter", killCounter);
     }
     return true;
   });
